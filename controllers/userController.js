@@ -1,5 +1,6 @@
 var { addUser, loginUser } = require('../services/userServices')
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = function userContoller() {
 
@@ -26,7 +27,7 @@ module.exports = function userContoller() {
             
             // res.send({
             //     success: true,
-            //     message: "aaiit"
+            //     message: "aaiit" 
             // });
 
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
@@ -37,8 +38,19 @@ module.exports = function userContoller() {
                     })
                 }
                 if (result) {
+                    const token = jwt.sign({
+                        email: user[0].email,
+                        userId: user[0]._id
+                    }, 
+                    "secret", 
+                    {
+                        expiresIn: "1h"
+                    }
+                    );
+
                     res.send({
-                        message: "Auth successful"
+                        message: "Auth successful",
+                        token: token
                     });
                 }
             })
