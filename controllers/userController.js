@@ -1,20 +1,20 @@
-var { addUser, loginUser } = require('../services/userServices')
+var { addUser, loginUser, deleteUser } = require('../services/userServices')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = function userContoller() {
 
     this.addUser = (req, res) => {
-        bcrypt.hash(req.body.password, 2, (err, hash) => {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
             addUser(req.body, hash).then(result => {
                 res.send({
                     success: true,
-                    message: "user created", data: null
+                    message: "user created", data: req.body
                 })
             }).catch(error => {
                 res.send({
                     success: false,
-                    message: "could not not user", data: error
+                    message: "could not create user user", data: error
                 })
             })
         })
@@ -50,10 +50,20 @@ module.exports = function userContoller() {
 
                     res.send({
                         message: "Auth successful",
-                        token: token
+                        token: token,
+                        user: user[0]
                     });
+                }else {
+                    res.status(401).send({
+                        message: "Auth Failed"
+                    })
                 }
             })
         })
+    }
+
+    this.removeUser = (req, res, next) => {
+
+        deleteUser(req.body)
     }
 }

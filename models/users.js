@@ -23,7 +23,9 @@ var UserSchema = new Schema({
 
     phone: { type: String },
 
-    password: {type: String, required: false},
+    password: {type: String, required: true},
+
+    role: {type: String, required: true},
 
     createdDate: { type: Date, default: new Date() }
 });

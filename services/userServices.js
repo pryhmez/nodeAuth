@@ -10,7 +10,8 @@ var addUser = function (userData, hash) {
                     name: userData.name ,
                     email : userData.email,
                     phone : userData.phone,
-                    password : hash       
+                    password : hash ,
+                    role : userData.role      
                 }
             );
             return newUser.save();
@@ -21,6 +22,9 @@ var loginUser = function (userData) {
     return userModel.find({email: userData.email})
 }
 
+var deleteUser = function (userData) {
+    return userModel.remove({email: userData.email})
+}
 
 
 
@@ -30,7 +34,8 @@ var loginUser = function (userData) {
 
 module.exports = {
     addUser,
-    loginUser
+    loginUser,
+    deleteUser
 }
 
 // module.exports = function userFunction() {
