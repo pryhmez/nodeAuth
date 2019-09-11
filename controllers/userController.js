@@ -64,6 +64,11 @@ module.exports = function userContoller() {
 
     this.removeUser = (req, res, next) => {
 
-        deleteUser(req.body)
+        deleteUser(req.body).then(result => {
+        
+            res.send({
+                result: result
+            })
+        })
     }
 }
