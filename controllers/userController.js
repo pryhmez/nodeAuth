@@ -40,7 +40,8 @@ module.exports = function userContoller() {
                 if (result) {
                     const token = jwt.sign({
                         email: user[0].email,
-                        userId: user[0]._id
+                        userId: user[0]._id,
+                        userRole: user[0].role
                     }, 
                     "secret", 
                     {
@@ -66,8 +67,9 @@ module.exports = function userContoller() {
 
         deleteUser(req.body).then(result => {
         
-            res.send({
-                result: result
+            res.status(200).send({
+                result: result,
+                message: req.body.email + " deletion successful"
             })
         })
     }
